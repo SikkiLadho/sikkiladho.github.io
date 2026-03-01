@@ -1,295 +1,806 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
-
+<html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.98.0" /><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>ARM64 Hypervisor</title>
-
-<meta name="description" content="">
-<meta name="author" content="Mushahid Hussain">
-<link rel="canonical" href="http://arm64hypervisor.com/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://arm64hypervisor.com/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://arm64hypervisor.com/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://arm64hypervisor.com/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://arm64hypervisor.com/apple-touch-icon.png">
-<link rel="mask-icon" href="http://arm64hypervisor.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://arm64hypervisor.com/index.xml">
-<link rel="alternate" type="application/json" href="http://arm64hypervisor.com/index.json">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DDM8356YPK"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-DDM8356YPK', { 'anonymize_ip': false });
-}
-</script>
-<meta property="og:title" content="ARM64 Hypervisor" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="http://arm64hypervisor.com/" /><meta property="og:image" content="http://arm64hypervisor.com/papermod-cover.png"/>
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://arm64hypervisor.com/papermod-cover.png"/>
-
-<meta name="twitter:title" content="ARM64 Hypervisor"/>
-<meta name="twitter:description" content=""/>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "ARM64 Hypervisor",
-  "url": "http://arm64hypervisor.com/",
-  "description": "",
-  "thumbnailUrl": "http://arm64hypervisor.com/favicon.ico",
-  "sameAs": [
-      "https://github.com/sikkiladho/leo", "http://linkedin.com/in/mhussainshar", "index.xml"
-  ]
-}
-</script>
-</head>
-
-<body class="list" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chicken Invaders</title>
+  <style>
+    :root {
+      --bg: #0a0a1a;
+      --panel: #111128;
+      --accent: #f5c518;
+      --red: #e84040;
+      --green: #3ec43e;
+      --text: #e8e8f0;
+      --dim: #888;
+      --border: #2a2a4a;
     }
 
-</script>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="http://arm64hypervisor.com/" accesskey="h" title="ARM64 Hypervisor (Alt + H)">ARM64 Hypervisor</a>
-            <span class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </span>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="http://arm64hypervisor.com/archives/" title="Archive">
-                    <span>Archive</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://arm64hypervisor.com/categories/" title="Categories">
-                    <span>Categories</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://arm64hypervisor.com/search/" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://arm64hypervisor.com/about" title="About">
-                    <span>About</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<article class="first-entry home-info">
-    <header class="entry-header">
-        <h1>ARM64 Hypervisor</h1>
-    </header>
-    <section class="entry-content">
-        <p>Welcome to ARM64/AArch64 Hypervisor blog. I&rsquo;m Mushahid Hussain and I&rsquo;ll be writing about operating systems, hypervisors, and virtualization. Check out my <a href="https://arm64hypervisor.com/categories/tutorial/">series</a> on building a hypervisor!</p>
-    </section>
-    <footer class="entry-footer">
-        <div class="social-icons">
-    <a href="https://github.com/sikkiladho/leo" target="_blank" rel="noopener noreferrer me" title="Github">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-    stroke-linecap="round" stroke-linejoin="round">
-    <path
-        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-    </path>
-</svg>
-    </a>
-    <a href="http://linkedin.com/in/mhussainshar" target="_blank" rel="noopener noreferrer me" title="Linkedin">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-    stroke-linecap="round" stroke-linejoin="round">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-    <rect x="2" y="9" width="4" height="12"></rect>
-    <circle cx="4" cy="4" r="2"></circle>
-</svg>
-    </a>
-    <a href="index.xml" target="_blank" rel="noopener noreferrer me" title="RsS">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-    stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4 11a9 9 0 0 1 9 9" />
-    <path d="M4 4a16 16 0 0 1 16 16" />
-    <circle cx="5" cy="19" r="1" />
-</svg>
-    </a>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* Starfield */
+    #starfield {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle linear infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    /* Layout */
+    #game-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 900px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px rgba(245,197,24,0.6);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    header p {
+      color: var(--dim);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    /* Score bar */
+    #scorebar {
+      display: flex;
+      gap: 24px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .score-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .score-label { font-size: 0.65rem; color: var(--dim); text-transform: uppercase; letter-spacing: 2px; }
+    .score-value { font-size: 1.4rem; font-weight: bold; color: var(--accent); }
+    #hs-value { color: #a78bfa; }
+    #lives-value { color: var(--red); }
+    #wave-value { color: var(--green); }
+
+    /* Game canvas area */
+    #arena {
+      width: 100%;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 16px 16px;
+      position: relative;
+      min-height: 360px;
+    }
+
+    /* Grid of chickens */
+    #chicken-grid {
+      display: grid;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .chicken-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.05s;
+    }
+
+    .chicken-cell.hit {
+      animation: hit-flash 0.3s ease-out forwards;
+    }
+
+    @keyframes hit-flash {
+      0% { transform: scale(1.4); filter: brightness(3) saturate(0); }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    .chicken-sprite {
+      font-size: 2.6rem;
+      line-height: 1;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.1s;
+      display: block;
+      animation: bob 1.2s ease-in-out infinite;
+    }
+
+    .chicken-sprite:hover { transform: scale(1.15); filter: brightness(1.3); }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .shoot-btn {
+      background: linear-gradient(135deg, #e84040, #b22222);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      padding: 5px 10px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.1s;
+      box-shadow: 0 3px 0 #7a0000;
+    }
+
+    .shoot-btn:hover {
+      background: linear-gradient(135deg, #ff6060, #e84040);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 0 #7a0000;
+    }
+
+    .shoot-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #7a0000;
+    }
+
+    /* Explosion particles */
+    .particle {
+      position: absolute;
+      pointer-events: none;
+      font-size: 1.2rem;
+      animation: burst 0.6s ease-out forwards;
+      z-index: 10;
+    }
+
+    @keyframes burst {
+      0% { transform: translate(0,0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; }
+    }
+
+    /* Player ship */
+    #player-area {
+      display: flex;
+      justify-content: center;
+      margin-top: 8px;
+      position: relative;
+    }
+
+    #player-ship {
+      font-size: 2.4rem;
+      filter: drop-shadow(0 0 8px rgba(100,200,255,0.8));
+      transition: left 0.1s;
+      position: relative;
+    }
+
+    #laser {
+      position: absolute;
+      width: 4px;
+      background: linear-gradient(to top, #00ccff, transparent);
+      border-radius: 2px;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.1s;
+    }
+
+    /* Eggs / bombs falling */
+    .egg {
+      position: absolute;
+      font-size: 1.4rem;
+      pointer-events: none;
+      animation: fall linear forwards;
+      z-index: 5;
+    }
+
+    @keyframes fall {
+      from { top: var(--start-y); }
+      to { top: 100%; }
+    }
+
+    /* Overlay screens */
+    .overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      border-radius: 12px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      z-index: 20;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .overlay.active { display: flex; }
+
+    .overlay h2 {
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+
+    .overlay p { color: var(--dim); font-size: 1rem; max-width: 320px; }
+
+    .overlay-score {
+      font-size: 1.6rem;
+      color: var(--accent);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #c9a000);
+      color: #0a0a1a;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 32px;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 4px 0 #7a6000;
+    }
+
+    .btn-primary:hover { filter: brightness(1.2); transform: translateY(-2px); }
+    .btn-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 #7a6000; }
+
+    /* Controls bar */
+    #controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .ctrl-btn {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Wave banner */
+    #wave-banner {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: rgba(10,10,26,0.95);
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 16px 40px;
+      font-size: 1.6rem;
+      color: var(--accent);
+      letter-spacing: 4px;
+      z-index: 100;
+      pointer-events: none;
+      text-transform: uppercase;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      text-shadow: 0 0 20px rgba(245,197,24,0.8);
+    }
+
+    #wave-banner.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Lives indicator */
+    #lives-display {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .life-icon { font-size: 1.1rem; }
+
+    /* Message log */
+    #msg-log {
+      height: 24px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--green);
+      letter-spacing: 1px;
+    }
+
+    footer {
+      color: var(--dim);
+      font-size: 0.75rem;
+      text-align: center;
+      padding-bottom: 20px;
+    }
+
+    @media (max-width: 500px) {
+      header h1 { font-size: 1.6rem; }
+      .chicken-sprite { font-size: 2rem; }
+      #scorebar { padding: 10px 16px; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Starfield -->
+<div id="starfield"></div>
+
+<!-- Wave banner -->
+<div id="wave-banner" id="wave-banner"></div>
+
+<div id="game-wrapper">
+  <header>
+    <h1>🐔 Chicken Invaders</h1>
+    <p>Shoot the chickens before they reach your ship!</p>
+  </header>
+
+  <!-- Score bar -->
+  <div id="scorebar">
+    <div class="score-item">
+      <span class="score-label">Score</span>
+      <span class="score-value" id="score-value">0</span>
+    </div>
+    <div class="score-item">
+      <span class="score-label">High Score</span>
+      <span class="score-value" id="hs-value">0</span>
+    </div>
+    <div class="score-item">
+      <span class="score-label">Wave</span>
+      <span class="score-value" id="wave-value">1</span>
+    </div>
+    <div class="score-item">
+      <span class="score-label">Lives</span>
+      <span class="score-value" id="lives-value">❤️❤️❤️</span>
+    </div>
+  </div>
+
+  <!-- Arena -->
+  <div id="arena">
+    <!-- Chicken grid injected here -->
+    <div id="chicken-grid"></div>
+    <!-- Player -->
+    <div id="player-area">
+      <div id="player-ship">🚀<div id="laser"></div></div>
+    </div>
+
+    <!-- Overlays -->
+    <div class="overlay active" id="start-screen">
+      <h2 style="color:var(--accent)">Chicken Invaders</h2>
+      <p>Click the <strong>SHOOT</strong> buttons or tap chickens to destroy them.<br>Don't let eggs hit your ship!</p>
+      <div class="overlay-score" id="hs-display-start"></div>
+      <button class="btn-primary" onclick="startGame()">▶ Start Game</button>
+    </div>
+
+    <div class="overlay" id="gameover-screen">
+      <h2 style="color:var(--red)">Game Over</h2>
+      <p>The chickens have overrun the galaxy!</p>
+      <div class="overlay-score" id="go-score"></div>
+      <div id="go-hs" style="color:#a78bfa;font-size:1rem;"></div>
+      <button class="btn-primary" onclick="startGame()">▶ Play Again</button>
+    </div>
+
+    <div class="overlay" id="win-screen">
+      <h2 style="color:var(--green)">Wave Clear!</h2>
+      <p>You obliterated the flock!</p>
+      <div class="overlay-score" id="win-score"></div>
+      <button class="btn-primary" onclick="nextWave()">▶ Next Wave</button>
+    </div>
+  </div>
+
+  <div id="msg-log"></div>
+
+  <!-- Controls -->
+  <div id="controls">
+    <button class="ctrl-btn" onclick="startGame()">↺ Restart</button>
+    <button class="ctrl-btn" onclick="clearHighScore()">🗑 Clear High Score</button>
+  </div>
+
+  <footer>Score is saved locally in your browser &nbsp;|&nbsp; Use buttons or click chickens to shoot</footer>
 </div>
 
-    </footer>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Tutorial 1: Exception Levels
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Today, we will be learning about exception levels.(have patience, we’ll write actual code too, but in the next post.) Exceptions levels define execution privilege at each level. There are 4 exception levels in ARMv8 architecture.
- Exception Level 0 (EL0): This Exception Level or Privilege Level is commonly used by userspace applications. Firefox, Libreoffice, VLC Media Player, and VirtualBox are a few examples of userspace applications. Exception Level 1 (EL1): Kernel and all privileged code associated with kernel works in EL1 execution level....</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-04-25 00:00:00 +0000 UTC'>April 25, 2022</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Mushahid Hussain(SikkiLadho)</footer>
-  <a class="entry-link" aria-label="post link to Tutorial 1: Exception Levels" href="http://arm64hypervisor.com/posts/exception_levels/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Tutorial 0: Introduction
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>This is a series of tutorials that I never had a year ago when I decided to write a bare-metal hypervisor on Raspberry Pi 4, Leo Hypervisor. I did not have prior experience with bare-metal or even kernel development. Therefore, I will be sharing all that I have learned in the following series of tutorials. You are welcome to contribute to this project and I would also love to learn from you....</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-04-19 00:00:00 +0000 UTC'>April 19, 2022</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Mushahid Hussain(SikkiLadho)</footer>
-  <a class="entry-link" aria-label="post link to Tutorial 0: Introduction" href="http://arm64hypervisor.com/posts/intro/"></a>
-</article>
-    </main>
-    
-<footer class="footer">
-    <span>&copy; 2022 <a href="http://arm64hypervisor.com/">ARM64 Hypervisor</a></span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
-
 <script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
+/* ============================================================
+   CHICKEN INVADERS — Pure HTML/JS/CSS game
+   Score persisted via localStorage
+   ============================================================ */
+
+// ---- Config ------------------------------------------------
+const ROWS_BASE = 3;
+const COLS_BASE = 8;
+const POINTS_PER_CHICKEN = 100;
+const POINTS_BACK_ROW_BONUS = 50; // bonus for back row
+const EGG_INTERVAL_BASE = 3200; // ms between eggs per chicken
+const EGG_FALL_BASE = 4000;     // ms to fall full height
+const MAX_LIVES = 3;
+
+// Chicken variety per wave
+const CHICKEN_TYPES = ['🐔','🐓','🐣','🐤','🐥'];
+const EGG_TYPES = ['🥚','💩','🌶️','💣'];
+
+// ---- State -------------------------------------------------
+let score = 0;
+let wave = 1;
+let lives = MAX_LIVES;
+let chickens = [];          // { id, row, col, el, dead, eggTimer }
+let eggs = [];              // active egg elements
+let gameRunning = false;
+let eggInterval = null;
+let moveInterval = null;
+let moveDir = 1;            // 1 = right, -1 = left
+let moveStep = 0;
+let chickensAlive = 0;
+
+// ---- localStorage ------------------------------------------
+function getHighScore() {
+  return parseInt(localStorage.getItem('ci_highscore') || '0', 10);
+}
+function setHighScore(s) {
+  localStorage.setItem('ci_highscore', String(s));
+}
+function clearHighScore() {
+  localStorage.removeItem('ci_highscore');
+  updateHUD();
+  showMsg('High score cleared!');
+}
+
+// ---- HUD ---------------------------------------------------
+function updateHUD() {
+  document.getElementById('score-value').textContent = score;
+  document.getElementById('hs-value').textContent = getHighScore();
+  document.getElementById('wave-value').textContent = wave;
+  // lives as hearts
+  document.getElementById('lives-value').textContent = '❤️'.repeat(lives) || '💀';
+}
+
+function showMsg(m, color = 'var(--green)') {
+  const el = document.getElementById('msg-log');
+  el.style.color = color;
+  el.textContent = m;
+  setTimeout(() => { if (el.textContent === m) el.textContent = ''; }, 2000);
+}
+
+// ---- Starfield ---------------------------------------------
+function buildStars() {
+  const sf = document.getElementById('starfield');
+  sf.innerHTML = '';
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%;
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*3+2}s;
+      animation-delay:${Math.random()*3}s;
+    `;
+    sf.appendChild(s);
+  }
+}
+
+// ---- Wave banner -------------------------------------------
+function showWaveBanner(text) {
+  const b = document.getElementById('wave-banner');
+  b.textContent = text;
+  b.classList.add('show');
+  setTimeout(() => b.classList.remove('show'), 1800);
+}
+
+// ---- Build grid --------------------------------------------
+function buildGrid() {
+  const rows = ROWS_BASE + Math.min(Math.floor((wave - 1) / 2), 2);
+  const cols = COLS_BASE;
+  const grid = document.getElementById('chicken-grid');
+  grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  grid.innerHTML = '';
+  chickens = [];
+  chickensAlive = 0;
+
+  // pick chicken type for this wave
+  const chickenType = CHICKEN_TYPES[(wave - 1) % CHICKEN_TYPES.length];
+  const eggType = EGG_TYPES[(wave - 1) % EGG_TYPES.length];
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const id = r * cols + c;
+      const cell = document.createElement('div');
+      cell.className = 'chicken-cell';
+      cell.id = `cell-${id}`;
+
+      const sprite = document.createElement('span');
+      sprite.className = 'chicken-sprite';
+      sprite.textContent = chickenType;
+      sprite.title = 'Click to shoot!';
+      sprite.addEventListener('click', () => shootChicken(id));
+
+      const btn = document.createElement('button');
+      btn.className = 'shoot-btn';
+      btn.textContent = '🔫 Shoot';
+      btn.addEventListener('click', () => shootChicken(id));
+
+      cell.appendChild(sprite);
+      cell.appendChild(btn);
+      grid.appendChild(cell);
+
+      const chicken = { id, row: r, col: c, el: cell, dead: false, eggTimer: null, eggType };
+      chickens.push(chicken);
+      chickensAlive++;
     }
+  }
+}
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
+// ---- Shoot a chicken ---------------------------------------
+function shootChicken(id) {
+  if (!gameRunning) return;
+  const ch = chickens[id];
+  if (!ch || ch.dead) return;
 
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
+  ch.dead = true;
+  chickensAlive--;
 
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
+  // Visual explosion
+  ch.el.classList.add('hit');
+  explode(ch.el);
+
+  // Clear egg timer
+  if (ch.eggTimer) clearTimeout(ch.eggTimer);
+
+  // Score: back rows worth more
+  const bonus = ch.row * POINTS_BACK_ROW_BONUS;
+  const pts = POINTS_PER_CHICKEN + bonus;
+  score += pts * wave;
+  showMsg(`+${pts * wave} pts`, 'var(--accent)');
+
+  // Update high score
+  if (score > getHighScore()) setHighScore(score);
+  updateHUD();
+
+  // Hide after animation
+  setTimeout(() => { ch.el.style.visibility = 'hidden'; }, 350);
+
+  // Win check
+  if (chickensAlive <= 0) {
+    setTimeout(waveComplete, 600);
+  }
+}
+
+// ---- Explosion particles -----------------------------------
+function explode(el) {
+  const rect = el.getBoundingClientRect();
+  const arena = document.getElementById('arena').getBoundingClientRect();
+  const cx = rect.left - arena.left + rect.width / 2;
+  const cy = rect.top - arena.top + rect.height / 2;
+
+  const emojis = ['💥','✨','⭐','🌟','💫'];
+  for (let i = 0; i < 6; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    const angle = (i / 6) * Math.PI * 2;
+    const dist = 40 + Math.random() * 30;
+    p.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+    p.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+    p.style.left = `${cx}px`;
+    p.style.top = `${cy}px`;
+    document.getElementById('arena').appendChild(p);
+    setTimeout(() => p.remove(), 700);
+  }
+}
+
+// ---- Egg dropping ------------------------------------------
+function scheduleEgg(ch) {
+  if (!gameRunning || ch.dead) return;
+  const minDelay = EGG_INTERVAL_BASE - wave * 200;
+  const delay = Math.max(800, minDelay) + Math.random() * 2000;
+  ch.eggTimer = setTimeout(() => {
+    if (!gameRunning || ch.dead) return;
+    dropEgg(ch);
+    scheduleEgg(ch);
+  }, delay);
+}
+
+function dropEgg(ch) {
+  if (ch.dead || !gameRunning) return;
+  const arena = document.getElementById('arena');
+  const arenaRect = arena.getBoundingClientRect();
+  const rect = ch.el.getBoundingClientRect();
+
+  const egg = document.createElement('div');
+  egg.className = 'egg';
+  egg.textContent = ch.eggType;
+  const startY = rect.top - arenaRect.top + rect.height;
+  const startX = rect.left - arenaRect.left + rect.width / 2;
+  egg.style.left = `${startX}px`;
+  egg.style.setProperty('--start-y', `${startY}px`);
+  const fallDuration = Math.max(1500, EGG_FALL_BASE - wave * 200);
+  egg.style.animationDuration = `${fallDuration}ms`;
+
+  arena.appendChild(egg);
+  eggs.push(egg);
+
+  // Check collision with player
+  const checkInterval = setInterval(() => {
+    if (!gameRunning) { clearInterval(checkInterval); egg.remove(); return; }
+    const eggRect = egg.getBoundingClientRect();
+    const playerRect = document.getElementById('player-ship').getBoundingClientRect();
+    if (rectsOverlap(eggRect, playerRect)) {
+      clearInterval(checkInterval);
+      egg.remove();
+      eggs = eggs.filter(e => e !== egg);
+      loseLife();
+    }
+  }, 80);
+
+  setTimeout(() => {
+    clearInterval(checkInterval);
+    if (egg.parentNode) egg.remove();
+    eggs = eggs.filter(e => e !== egg);
+  }, fallDuration + 200);
+}
+
+function rectsOverlap(a, b) {
+  return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+}
+
+// ---- Lose a life -------------------------------------------
+function loseLife() {
+  if (!gameRunning) return;
+  lives--;
+  updateHUD();
+  // Flash player ship
+  const ship = document.getElementById('player-ship');
+  ship.style.filter = 'drop-shadow(0 0 16px red) brightness(2)';
+  setTimeout(() => { ship.style.filter = 'drop-shadow(0 0 8px rgba(100,200,255,0.8))'; }, 400);
+  showMsg('Hit! -1 life', 'var(--red)');
+
+  if (lives <= 0) {
+    gameOver();
+  }
+}
+
+// ---- Game flow ---------------------------------------------
+function startGame() {
+  hideOverlays();
+  score = 0;
+  wave = 1;
+  lives = MAX_LIVES;
+  moveDir = 1;
+  moveStep = 0;
+  clearEggs();
+  buildGrid();
+  updateHUD();
+  gameRunning = true;
+  startEggDroppers();
+  showWaveBanner('Wave 1');
+}
+
+function nextWave() {
+  hideOverlays();
+  wave++;
+  moveDir = 1;
+  moveStep = 0;
+  clearEggs();
+  buildGrid();
+  updateHUD();
+  gameRunning = true;
+  startEggDroppers();
+  showWaveBanner(`Wave ${wave}`);
+}
+
+function waveComplete() {
+  gameRunning = false;
+  stopEggDroppers();
+  clearEggs();
+  document.getElementById('win-score').textContent = `Score: ${score}`;
+  showOverlay('win-screen');
+}
+
+function gameOver() {
+  gameRunning = false;
+  stopEggDroppers();
+  clearEggs();
+  if (score > getHighScore()) setHighScore(score);
+  document.getElementById('go-score').textContent = `Final Score: ${score}`;
+  const hs = getHighScore();
+  document.getElementById('go-hs').textContent = score >= hs ? '🏆 New High Score!' : `High Score: ${hs}`;
+  showOverlay('gameover-screen');
+}
+
+function clearEggs() {
+  eggs.forEach(e => { if (e.parentNode) e.remove(); });
+  eggs = [];
+  // Also remove egg elements from arena
+  document.querySelectorAll('.egg').forEach(e => e.remove());
+}
+
+function startEggDroppers() {
+  chickens.forEach(ch => { if (!ch.dead) scheduleEgg(ch); });
+}
+
+function stopEggDroppers() {
+  chickens.forEach(ch => { if (ch.eggTimer) { clearTimeout(ch.eggTimer); ch.eggTimer = null; } });
+}
+
+// ---- Overlay helpers ---------------------------------------
+function showOverlay(id) {
+  document.querySelectorAll('.overlay').forEach(o => o.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function hideOverlays() {
+  document.querySelectorAll('.overlay').forEach(o => o.classList.remove('active'));
+}
+
+// ---- Keyboard support --------------------------------------
+document.addEventListener('keydown', e => {
+  if (!gameRunning) return;
+  // Space bar = shoot nearest alive chicken
+  if (e.code === 'Space') {
+    e.preventDefault();
+    shootNearestChicken();
+  }
+});
+
+function shootNearestChicken() {
+  // Find bottom-most, then left-most alive chicken
+  const alive = chickens.filter(c => !c.dead);
+  if (!alive.length) return;
+  alive.sort((a, b) => b.row - a.row || a.col - b.col);
+  shootChicken(alive[0].id);
+}
+
+// ---- Init --------------------------------------------------
+buildStars();
+updateHUD();
+document.getElementById('hs-display-start').textContent =
+  getHighScore() > 0 ? `High Score: ${getHighScore()}` : '';
 
 </script>
 </body>
-
 </html>
